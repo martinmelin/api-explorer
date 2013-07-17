@@ -14,6 +14,7 @@ parameterInputTemplate = _.template $("#parameter-input-template").html()
 loadEndpoints = ->
   endpoints = _.map _.clone(API_ENDPOINTS.GET), (endpoint) ->
     { text: endpoint, id: endpoint }
+
   $endpointSelect.select data: endpoints
   $endpointSelect.val(endpoints[0].id).trigger "change"
 
@@ -26,7 +27,10 @@ showEndpointParameters = ->
     $parameters.show()
 
     for parameter in parameters
-      $parameterInputs.append parameterInputTemplate(name: parameter[1..])
+      $input = $ parameterInputTemplate(name: parameter[1..])
+      $input.find("input").val(STORE_ID).prop("disabled", true) if parameter is ":store_id"
+      $parameterInputs.append $input
+
   else
     $parameters.hide()
 

@@ -7,6 +7,57 @@
 </head>
 <body>
   <h1>Awesome Cool Example App</h1>
+  <div class="row">
+    <div class="col-lg-7">
+      <form action="/api" class="form-grouped">
+
+        <fieldset>
+          <legend>Method</legend>
+          <div class="well">
+            <div class="radio">
+              <input type="radio" id="method-get" name="method" checked value="GET">
+              <label for="method-get">GET</label>
+            </div>
+
+            <div class="radio">
+              <input type="radio" id="method-post" name="method">
+              <label for="method-post">POST</label>
+            </div>
+
+            <div class="radio">
+              <input type="radio" id="method-delete" name="method">
+              <label for="method-delete">DELETE</label>
+            </div>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Endpoint</legend>
+          <input type="hidden" id="endpoint" name="endpoint">
+        </fieldset>
+
+        <fieldset class="parameters">
+          <legend>Parameters</legend>
+          <div class="inputs"></div>
+        </fieldset>
+
+        <div class="form-actions">
+          <input type="submit" value="Send Request" class="btn btn-primary pull-right">
+        </div>
+      </form>
+    </div>
+
+    <pre class="response col-lg-5"></pre>
+  </div>
+
+  <script type="text/html" id="parameter-input-template">
+    <div class="form-row">
+      <label for="param-{{name}}">{{name}}</label>
+      <input type="text" name="{{name}}" required>
+    </div>
+  </script>
+
+  <%- LRScript %>
   <%- js("app") %>
 </body>
 </html>

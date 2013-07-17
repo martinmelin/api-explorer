@@ -1,2 +1,2 @@
 exports.index = (req, res) ->
-  res.render "app"
+  res.render "app", store_id: 3

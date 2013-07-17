@@ -11,6 +11,7 @@
     "coffee-script": "1.6.3",
     "less": "1.4.1",
     "ejs": "0.8.4",
-    "connect-assets": "2.5.0"
+    "connect-assets": "2.5.0",
+    "express-livereload": "0.0.24"
   }
 }

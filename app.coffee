@@ -5,6 +5,7 @@ Module dependencies.
 express = require "express"
 http = require "http"
 path = require "path"
+livereload = require "express-livereload"
 
 routes =
   index: require "./routes"
@@ -12,6 +13,10 @@ routes =
   api: require "./routes/api"
 
 app = express()
+
+livereload app,
+  watchDir: path.join(__dirname, "assets")
+  exts: ["less", "coffee"]
 
 # All environments
 app.set "port", process.env.PORT or 3000
@@ -22,7 +27,7 @@ app.use express.logger("dev")
 app.use express.bodyParser()
 app.use express.methodOverride()
 app.use app.router
-app.use express.static(path.join(__dirname, "public"))
+app.use express.static(path.join(__dirname, "assets"))
 app.use require("connect-assets")()
 
 # Development only

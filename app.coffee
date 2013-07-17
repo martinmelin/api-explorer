@@ -9,6 +9,7 @@ path = require "path"
 routes =
   index: require "./routes"
   app: require "./routes/app"
+  api: require "./routes/api"
 
 app = express()
 
@@ -30,6 +31,7 @@ if app.get("env") is "development"
 
 app.get "/", routes.index
 app.get "/app", routes.app.index
+app.get "/api/*", routes.api.index
 
 http.createServer(app).listen app.get("port"), ->
   console.log "Express server listening on port " + app.get("port")

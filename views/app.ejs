@@ -20,12 +20,12 @@
             </div>
 
             <div class="radio">
-              <input type="radio" id="method-post" name="method">
+              <input type="radio" id="method-post" name="method" value="POST">
               <label for="method-post">POST</label>
             </div>
 
             <div class="radio">
-              <input type="radio" id="method-delete" name="method">
+              <input type="radio" id="method-delete" name="method" value="DELETE">
               <label for="method-delete">DELETE</label>
             </div>
           </div>
@@ -36,9 +36,14 @@
           <input type="hidden" id="endpoint" name="endpoint">
         </fieldset>
 
-        <fieldset class="parameters">
+        <fieldset id="parameters">
           <legend>Parameters</legend>
           <div class="inputs"></div>
+        </fieldset>
+
+        <fieldset id="request-body">
+          <legend>Request Body</legend>
+          <textarea name="body" id="body" cols="30" rows="5"></textarea>
         </fieldset>
 
         <div class="form-actions">

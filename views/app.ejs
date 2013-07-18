@@ -6,7 +6,7 @@
   <%- css("main") %>
 </head>
 <body>
-  <h1>Awesome Cool Example App</h1>
+  <h1>Tictail API Inspector</h1>
   <div class="row">
     <div class="col-lg-7">
       <form action="/api" class="form-grouped">
@@ -64,6 +64,7 @@
 
   <%- LRScript %>
   <script>
+    window.ACCESS_TOKEN = "<%= access_token %>"
     window.STORE_ID = <%= store_id %>
   </script>
   <%- js("app") %>

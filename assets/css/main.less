@@ -1,5 +1,25 @@
 @import "../vendor/tictail-uikit/tictail-uikit.css";
 
+.login {
+  text-align: center;
+  header {
+    margin-top: 100px;
+    margin-bottom: 20px;
+
+    img {
+      margin-bottom: 10px;
+      opacity: 0.6;
+      -webkit-transform-origin: 50% 100%;
+      -webkit-animation: logo 1.5s both infinite linear;
+    }
+
+    h1 {
+      font-size: 40px;
+      padding-bottom: 10px;
+    }
+  }
+}
+
 .select2-container, textarea {
   max-width: 320px;
 }
@@ -20,4 +40,16 @@
 
 #request-body {
   display: none;
+}
+
+@-webkit-keyframes logo {
+  25% {
+    -webkit-transform: rotate(3deg) translateY(2px);
+  }
+  50% {
+    -webkit-transform: rotate(0) translateY(0);
+  }
+  75% {
+    -webkit-transform: rotate(-3deg) translateY(2px);
+  }
 }

@@ -12,9 +12,7 @@ catch e
               "client.sample.coffee and rename the file to client.coffee."
   process.exit()
 
-routes =
-  app: require "./routes/app"
-  api: require "./routes/api"
+routes = require "./routes"
 
 app = express()
 
@@ -26,7 +24,7 @@ tictailApp = new TictailApp(
   expressApp: app
   clientId: client.ID
   clientSecret: client.SECRET
-  onLogin: routes.app.onLogin
+  onLogin: routes.onLogin
 )
 
 # All environments
@@ -47,8 +45,7 @@ if app.get("env") is "development"
   app.use express.errorHandler()
 
 tictailApp.setupRoutes()
-app.get "/", routes.app.index
-app.all "/api/*", routes.api.index
+app.get "/", routes.index
 
 http.createServer(app).listen app.get("port"), ->
   console.log "Express server listening on port " + app.get("port")

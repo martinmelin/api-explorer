@@ -26,7 +26,6 @@ loadEndpoints = ->
   else
     $requestBody.hide()
 
-
 showEndpointParameters = ->
   endpoint = $endpointSelect.val()
   parameters = parseUrlParameters endpoint
@@ -65,7 +64,7 @@ $form.validate
     endpoint = insertUrlParameters form.endpoint.value, urlParameters
     method = $form.find("input[name=method]:checked").val()
 
-    params = url: "/api/#{endpoint}", type: method
+    params = url: "http://api.tictailhq.com/#{endpoint}", type: method
     if method is "POST"
       _.extend params, contentType: "application/json", data: $form[0].body.value
 
@@ -75,4 +74,3 @@ $form.validate
       ).error((error) ->
         $(".response").text "#{error.status}: #{error.statusText}"
       )
-

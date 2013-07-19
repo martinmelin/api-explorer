@@ -1,6 +1,7 @@
 #= require ../vendor/jquery/jquery-1.10.2.min
 #= require ../vendor/underscore/underscore-min
 #= require ../vendor/tictail-uikit/tictail-uikit.js
+#= require ../vendor/prism/prism.js
 #= require endpoints
 
 # Use Mustache-style templating to avoid conflicts with EJS templates
@@ -12,6 +13,7 @@ class App
   $parameters: $ "#parameters"
   $parameterInputs: $ "#parameters .inputs"
   $requestBody: $ "#request-body"
+  $response = $ ".response code"
 
   constructor: ->
     @parameterInputTemplate = _.template $("#parameter-input-template").html()
@@ -73,9 +75,10 @@ class App
 
     $.ajax(params)
       .success((response, status, jqXHR) ->
-        $(".response").text jqXHR.responseText or "Success!"
+        $response.text jqXHR.responseText or "Success!"
+        Prism.highlightAll()
       ).error((error) ->
-        $(".response").text "#{error.status}: #{error.statusText}"
+        $response.text "#{error.status}: #{error.statusText}"
       )
 
 new App

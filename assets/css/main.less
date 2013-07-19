@@ -20,27 +20,36 @@
   }
 }
 
-.select2-container, textarea {
-  max-width: 320px;
+.app {
+  .logout {
+    position: fixed;
+    right: 20px;
+    top: 20px;
+  }
+
+  .select2-container, textarea {
+    max-width: 320px;
+  }
+
+  .response {
+    min-height: 280px;
+    overflow: auto;
+  }
+
+  .radio {
+    display: inline-block;
+    vertical-align: bottom;
+  }
+
+  #parameters {
+    display: none;
+  }
+
+  #request-body {
+    display: none;
+  }
 }
 
-.response {
-  min-height: 280px;
-  overflow: auto;
-}
-
-.radio {
-  display: inline-block;
-  vertical-align: bottom;
-}
-
-#parameters {
-  display: none;
-}
-
-#request-body {
-  display: none;
-}
 
 @-webkit-keyframes logo {
   25% {

@@ -17,3 +17,8 @@ exports.onLogin = (error, {res, accessToken, storeId}) ->
   res.cookie "store_id", storeId, { maxAge: COOKIE_LIFETIME }
 
   res.redirect "/"
+
+exports.logout = (req, res) ->
+  res.clearCookie "access_token"
+  res.clearCookie "store_id"
+  res.redirect "/"

@@ -6,53 +6,56 @@
   <%- css("main") %>
 </head>
 <body>
-  <h1>Tictail API Inspector</h1>
-  <div class="row">
-    <div class="col-lg-7">
-      <form action="/api" class="form-grouped">
+  <div class="container app">
+    <a href="/logout" class="btn btn-default btn-small logout" >Log Out</a>
+    <h1>Tictail API Inspector</h1>
+    <div class="row">
+      <div class="col-lg-7">
+        <form action="/api" class="form-grouped">
 
-        <fieldset>
-          <legend>Method</legend>
-          <div class="well">
-            <div class="radio">
-              <input type="radio" id="method-get" name="method" checked value="GET">
-              <label for="method-get">GET</label>
-            </div>
+          <fieldset>
+            <legend>Method</legend>
+            <div class="well">
+              <div class="radio">
+                <input type="radio" id="method-get" name="method" checked value="GET">
+                <label for="method-get">GET</label>
+              </div>
 
-            <div class="radio">
-              <input type="radio" id="method-post" name="method" value="POST">
-              <label for="method-post">POST</label>
-            </div>
+              <div class="radio">
+                <input type="radio" id="method-post" name="method" value="POST">
+                <label for="method-post">POST</label>
+              </div>
 
-            <div class="radio">
-              <input type="radio" id="method-delete" name="method" value="DELETE">
-              <label for="method-delete">DELETE</label>
+              <div class="radio">
+                <input type="radio" id="method-delete" name="method" value="DELETE">
+                <label for="method-delete">DELETE</label>
+              </div>
             </div>
+          </fieldset>
+
+          <fieldset>
+            <legend>Endpoint</legend>
+            <input type="hidden" id="endpoint" name="endpoint">
+          </fieldset>
+
+          <fieldset id="parameters">
+            <legend>Parameters</legend>
+            <div class="inputs"></div>
+          </fieldset>
+
+          <fieldset id="request-body">
+            <legend>Request Body</legend>
+            <textarea name="body" id="body" cols="30" rows="5"></textarea>
+          </fieldset>
+
+          <div class="form-actions">
+            <input type="submit" value="Send Request" class="btn btn-primary pull-right">
           </div>
-        </fieldset>
+        </form>
+      </div>
 
-        <fieldset>
-          <legend>Endpoint</legend>
-          <input type="hidden" id="endpoint" name="endpoint">
-        </fieldset>
-
-        <fieldset id="parameters">
-          <legend>Parameters</legend>
-          <div class="inputs"></div>
-        </fieldset>
-
-        <fieldset id="request-body">
-          <legend>Request Body</legend>
-          <textarea name="body" id="body" cols="30" rows="5"></textarea>
-        </fieldset>
-
-        <div class="form-actions">
-          <input type="submit" value="Send Request" class="btn btn-primary pull-right">
-        </div>
-      </form>
+      <pre class="response col-lg-5"></pre>
     </div>
-
-    <pre class="response col-lg-5"></pre>
   </div>
 
   <script type="text/html" id="parameter-input-template">

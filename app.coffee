@@ -46,6 +46,7 @@ if app.get("env") is "development"
 
 tictailApp.setupRoutes()
 app.get "/", routes.index
+app.get "/logout", routes.logout
 
 http.createServer(app).listen app.get("port"), ->
   console.log "Express server listening on port " + app.get("port")

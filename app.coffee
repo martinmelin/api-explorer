@@ -1,7 +1,6 @@
 express = require "express"
 http = require "http"
 path = require "path"
-livereload = require "express-livereload"
 
 TictailApp = require "./lib/tictail-app"
 
@@ -15,10 +14,6 @@ catch e
 routes = require "./routes"
 
 app = express()
-
-livereload app,
-  watchDir: path.join(__dirname, "assets")
-  exts: ["less", "coffee"]
 
 tictailApp = new TictailApp(
   expressApp: app

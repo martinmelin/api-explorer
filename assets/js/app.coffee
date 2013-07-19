@@ -3,70 +3,73 @@
 #= require ../vendor/tictail-uikit/tictail-uikit.js
 #= require endpoints
 
-$form = $ "form"
-$endpointSelect = $ "#endpoint"
-$parameters = $ "#parameters"
-$parameterInputs = $parameters.find ".inputs"
-$requestBody = $ "#request-body"
-
 # Use Mustache-style templating to avoid conflicts with EJS templates
 _.templateSettings = interpolate : /\{\{(.+?)\}\}/g
-parameterInputTemplate = _.template $("#parameter-input-template").html()
 
-loadEndpoints = ->
-  method = $form.find("input[name=method]:checked").val()
-  endpoints = _.map _.clone(API_ENDPOINTS[method]), (endpoint) ->
-    { text: endpoint, id: endpoint }
+class App
+  $form: $ "form"
+  $endpointSelect: $ "#endpoint"
+  $parameters: $ "#parameters"
+  $parameterInputs: $ "#parameters .inputs"
+  $requestBody: $ "#request-body"
 
-  $endpointSelect.select data: endpoints
-  $endpointSelect.val(endpoints[0].id).trigger "change"
+  constructor: ->
+    @parameterInputTemplate = _.template $("#parameter-input-template").html()
 
-  if method is "POST"
-    $requestBody.show()
-  else
-    $requestBody.hide()
+    @$endpointSelect.on "change", @showEndpointParameters.bind(this)
+    @$form.on "ifChecked", "input[name=method]", @loadEndpoints.bind(this)
+    @$form.validate submitHandler: @submitHandler.bind(this)
 
-showEndpointParameters = ->
-  endpoint = $endpointSelect.val()
-  parameters = parseUrlParameters endpoint
-  $parameterInputs.empty()
+    @loadEndpoints()
 
-  if parameters
-    $parameters.show()
+  loadEndpoints: ->
+    method = @$form.find("input[name=method]:checked").val()
+    endpoints = _.map _.clone(API_ENDPOINTS[method]), (endpoint) ->
+      { text: endpoint, id: endpoint }
 
-    for parameter in parameters
-      $input = $ parameterInputTemplate(name: parameter[1..])
-      if parameter is ":store_id"
-        $input.find("input").val(STORE_ID).prop "disabled", true
+    @$endpointSelect.select data: endpoints
+    @$endpointSelect.val(endpoints[0].id).trigger "change"
 
-      $parameterInputs.append $input
+    if method is "POST"
+      @$requestBody.show()
+    else
+      @$requestBody.hide()
 
-  else
-    $parameters.hide()
+  showEndpointParameters: ->
+    endpoint = @$endpointSelect.val()
+    parameters = @parseUrlParameters endpoint
+    @$parameterInputs.empty()
 
-parseUrlParameters = (url) ->
-  url.match /:[A-Z_]*/gi
+    if parameters
+      @$parameters.show()
 
-insertUrlParameters = (url, parameters) ->
-  url = url.replace(":#{parameter}", value) for parameter, value of parameters
-  url
+      for parameter in parameters
+        $input = $ @parameterInputTemplate(name: parameter[1..])
+        if parameter is ":store_id"
+          $input.find("input").val(STORE_ID).prop "disabled", true
 
-$endpointSelect.on("change", showEndpointParameters)
-$form.on "ifChecked", "input[name=method]", loadEndpoints
-loadEndpoints()
+        @$parameterInputs.append $input
+    else
+      @$parameters.hide()
 
-$form.validate
+  parseUrlParameters: (url) ->
+    url.match /:[A-Z_]*/gi
+
+  insertUrlParameters: (url, parameters) ->
+    url = url.replace(":#{parameter}", value) for parameter, value of parameters
+    url
+
   submitHandler: (form) ->
     urlParameters = {}
-    for input in $parameterInputs.find("input")
+    for input in @$parameterInputs.find("input")
       urlParameters[input.name] = input.value
 
-    endpoint = insertUrlParameters form.endpoint.value, urlParameters
-    method = $form.find("input[name=method]:checked").val()
+    endpoint = @insertUrlParameters form.endpoint.value, urlParameters
+    method = @$form.find("input[name=method]:checked").val()
 
     params = url: "http://api.tictailhq.com/#{endpoint}", type: method
     if method is "POST"
-      _.extend params, contentType: "application/json", data: $form[0].body.value
+      _.extend params, contentType: "application/json", data: @$form[0].body.value
 
     $.ajax(params)
       .success((response, status, jqXHR) ->
@@ -74,3 +77,5 @@ $form.validate
       ).error((error) ->
         $(".response").text "#{error.status}: #{error.statusText}"
       )
+
+new App

@@ -73,7 +73,7 @@ class App
 
     $.ajax(params)
       .success((response, status, jqXHR) ->
-        $(".response").text jqXHR.responseText
+        $(".response").text jqXHR.responseText or "Success!"
       ).error((error) ->
         $(".response").text "#{error.status}: #{error.statusText}"
       )

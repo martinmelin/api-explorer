@@ -6,7 +6,7 @@ exports.index = (req, res) ->
   if isAuthenticated req
     res.render "app",
       store_id: req.cookies.store_id
-      access_token: req.access_token
+      access_token: req.cookies.access_token
   else
     res.render "login"
 

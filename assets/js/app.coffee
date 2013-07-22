@@ -69,9 +69,18 @@ class App
     endpoint = @insertUrlParameters form.endpoint.value, urlParameters
     method = @$form.find("input[name=method]:checked").val()
 
-    params = url: "http://api.tictailhq.com/#{endpoint}", type: method
+    params =
+      url: "http://api.tictailhq.com/#{endpoint}"
+      type: method
+      headers: {
+        Authorization: "Bearer #{window.ACCESS_TOKEN}"
+      }
+
     if method is "POST"
-      _.extend params, contentType: "application/json", data: @$form[0].body.value
+      _.extend params, {
+        contentType: "application/json"
+        data: @$form[0].body.value
+      }
 
     $.ajax(params)
       .success((response, status, jqXHR) ->

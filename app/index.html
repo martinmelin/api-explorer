@@ -3,7 +3,6 @@
 <head>
   <meta charset="UTF-8">
   <title>Example App - App</title>
-  <%- css("main") %>
 </head>
 <body>
   <div class="container app">
@@ -61,11 +60,5 @@
       <input type="text" name="{{name}}" required>
     </div>
   </script>
-
-  <script>
-    window.ACCESS_TOKEN = "<%= access_token %>"
-    window.STORE_ID = <%= store_id %>
-  </script>
-  <%- js("app") %>
 </body>
 </html>

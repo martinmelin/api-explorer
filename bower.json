@@ -1,5 +1,5 @@
 {
-  "name": "tictail-api-inspector",
+  "name": "tictail-api-explorer",
   "version": "1.0.0",
   "dependencies": {
     "jquery": "2.0.3",

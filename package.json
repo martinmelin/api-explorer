@@ -1,6 +1,6 @@
 {
-  "name": "example-app",
-  "version": "0.0.1",
+  "name": "tictail-api-explorer",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
     "start": "coffee app.coffee"

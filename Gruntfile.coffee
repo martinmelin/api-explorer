@@ -11,9 +11,9 @@ module.exports = (grunt) ->
       coffee:
         files: ["app/scripts/{,*/}*.coffee"]
         tasks: ["coffee:dist"]
-      recess:
+      compass:
         files: ["app/styles/{,*/}*.{scss,sass}"]
-        tasks: ["recess:server"]
+        tasks: ["compass:server"]
       livereload:
         options:
             livereload: LIVERELOAD_PORT

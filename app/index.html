@@ -3,6 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <title>Example App - App</title>
+  <!-- build:css({.tmp,app}) styles/main.css -->
+  <link rel="stylesheet" href="vendor/tictail-uikit/tictail-uikit.css">
+  <link rel="stylesheet" href="vendor/prism/prism.css">
+  <link rel="stylesheet" href="styles/main.css">
+  <!-- endbuild -->
 </head>
 <body>
   <div class="container app">
@@ -60,5 +65,14 @@
       <input type="text" name="{{name}}" required>
     </div>
   </script>
+
+  <!-- build:js({.tmp,app}) scripts/app.js -->
+  <script src="vendor/jquery/jquery-1.10.2.min.js"></script>
+  <script src="vendor/underscore/underscore-min.js"></script>
+  <script src="vendor/tictail-uikit/tictail-uikit.js"></script>
+  <script src="vendor/prism/prism.js"></script>
+  <script src="scripts/endpoints.js"></script>
+  <script src="scripts/main.js"></script>
+  <!-- endbuild -->
 </body>
 </html>

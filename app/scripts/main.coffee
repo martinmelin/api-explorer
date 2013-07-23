@@ -1,9 +1,3 @@
-#= require ../vendor/jquery/jquery-1.10.2.min
-#= require ../vendor/underscore/underscore-min
-#= require ../vendor/tictail-uikit/tictail-uikit.js
-#= require ../vendor/prism/prism.js
-#= require endpoints
-
 # Use Mustache-style templating to avoid conflicts with EJS templates
 _.templateSettings = interpolate : /\{\{(.+?)\}\}/g
 
@@ -15,6 +9,9 @@ class App
   $response = $ ".response code"
 
   constructor: ->
+    @storeId = 3
+    @accessToken = ""
+
     @parameterInputTemplate = _.template $("#parameter-input-template").html()
 
     @$endpointSelect.on "change", @showEndpointParameters.bind(this)
@@ -47,7 +44,7 @@ class App
       for parameter in parameters
         $input = $ @parameterInputTemplate(name: parameter[1..])
         if parameter is ":store_id"
-          $input.find("input").val(STORE_ID).prop "disabled", true
+          $input.find("input").val(@storeId).prop "disabled", true
 
         @$parameters.append $input
     else
@@ -72,7 +69,7 @@ class App
       url: "http://api.tictailhq.com/#{endpoint}"
       type: method
       headers: {
-        Authorization: "Bearer #{window.ACCESS_TOKEN}"
+        Authorization: "Bearer #{@accessToken}"
       }
 
     if method is "POST"

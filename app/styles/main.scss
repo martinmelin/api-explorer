@@ -12,12 +12,20 @@
     right: 0;
     padding-bottom: 141px;
     height: 100%;
-  }
 
-  .response {
-    height: 100%;
-    margin: 0;
-    overflow: auto;
+    .response {
+      height: 100%;
+      margin: 0;
+      overflow: auto;
+
+      .token.string {
+        color: #FFCC00;
+      }
+
+      .token.keyword {
+        color: #0BA7FF;
+      }
+    }
   }
 
   .radio {

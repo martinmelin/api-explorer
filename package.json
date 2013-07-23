@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "start": "coffee app.coffee"
+    "start": "grunt server",
+    "build": "grunt build"
   },
   "devDependencies": {
     "grunt": "~0.4.1",

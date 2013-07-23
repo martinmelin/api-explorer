@@ -21,7 +21,6 @@ module.exports = (grunt) ->
           "app/*.html"
           "{.tmp,app}/styles/{,*/}*.css"
           "{.tmp,app}/scripts/{,*/}*.js"
-          "app/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}"
         ]
 
     connect:
@@ -65,14 +64,8 @@ module.exports = (grunt) ->
       options:
         sassDir: "app/styles"
         cssDir: ".tmp/styles"
-        generatedImagesDir: ".tmp/images/generated"
-        imagesDir: "app/images"
         javascriptsDir: "app/scripts"
-        fontsDir: "app/styles/fonts"
         importPath: "app/bower_components"
-        httpImagesPath: "/images"
-        httpGeneratedImagesPath: "/images/generated"
-        httpFontsPath: "/styles/fonts"
         relativeAssets: false
 
       dist: {}
@@ -86,8 +79,6 @@ module.exports = (grunt) ->
           src: [
             "dist/scripts/{,*/}*.js"
             "dist/styles/{,*/}*.css"
-            "dist/images/{,*/}*.{png,jpg,jpeg,gif,webp}"
-            "dist/styles/fonts/*"
           ]
 
     useminPrepare:
@@ -103,24 +94,6 @@ module.exports = (grunt) ->
       html: ["dist/{,*/}*.html"]
       css: ["dist/styles/{,*/}*.css"]
 
-    imagemin:
-      dist:
-        files: [
-          expand: true
-          cwd: "app/images"
-          src: "{,*/}*.{png,jpg,jpeg}"
-          dest: "dist/images"
-        ]
-
-    svgmin:
-      dist:
-        files: [
-          expand: true
-          cwd: "app/images"
-          src: "{,*/}*.svg"
-          dest: "dist/images"
-        ]
-
     cssmin: {}
 
     htmlmin:
@@ -134,25 +107,10 @@ module.exports = (grunt) ->
           dest: "dist"
         ]
 
-    copy:
-      dist:
-        files: [{
-          expand: true
-          dot: true
-          cwd: "app"
-          dest: "dist"
-          src: ["*.{ico,png,txt}", "images/{,*/}*.{webp,gif}", "styles/fonts/*"]
-        }, {
-          expand: true
-          cwd: ".tmp/images"
-          dest: "dist/images"
-          src: ["generated/*"]
-        }]
-
     concurrent:
       server: ["compass", "coffee:dist"]
       test: ["coffee"]
-      dist: ["coffee", "compass", "imagemin", "svgmin", "htmlmin"]
+      dist: ["coffee", "compass", "htmlmin"]
 
   grunt.registerTask "server", (target) ->
     if target is "dist"
@@ -167,7 +125,6 @@ module.exports = (grunt) ->
     "concat"
     "cssmin"
     "uglify"
-    "copy:dist"
     "rev"
     "usemin"
   ]

@@ -1,6 +1,3 @@
-# Use Mustache-style templating to avoid conflicts with EJS templates
-_.templateSettings = interpolate : /\{\{(.+?)\}\}/g
-
 class App
   $form: $ "form"
   $endpointSelect: $ "#endpoint"

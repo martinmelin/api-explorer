@@ -1,0 +1,11 @@
+{
+  "name": "tictail-api-inspector",
+  "version": "1.0.0",
+  "dependencies": {
+    "jquery": "2.0.3",
+    "tictail-uikit": "git@github.com:tictail/UIKit.git#7f64044c0632d44355ab2015aa55973e63887457",
+    "prism": "LeaVerou/prism#a822961680a774d4d3eedfc2d7cc0dd06db39dfd",
+    "underscore": "1.5.1"
+  },
+  "devDependencies": {}
+}

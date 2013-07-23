@@ -11,7 +11,6 @@ class App
   $form: $ "form"
   $endpointSelect: $ "#endpoint"
   $parameters: $ "#parameters"
-  $parameterInputs: $ "#parameters .inputs"
   $requestBody: $ "#request-body"
   $response = $ ".response code"
 
@@ -40,7 +39,7 @@ class App
   showEndpointParameters: ->
     endpoint = @$endpointSelect.val()
     parameters = @parseUrlParameters endpoint
-    @$parameterInputs.empty()
+    @$parameters.empty()
 
     if parameters
       @$parameters.show()
@@ -50,7 +49,7 @@ class App
         if parameter is ":store_id"
           $input.find("input").val(STORE_ID).prop "disabled", true
 
-        @$parameterInputs.append $input
+        @$parameters.append $input
     else
       @$parameters.hide()
 
@@ -63,7 +62,7 @@ class App
 
   submitHandler: (form) ->
     urlParameters = {}
-    for input in @$parameterInputs.find("input")
+    for input in @$parameters.find("input")
       urlParameters[input.name] = input.value
 
     endpoint = @insertUrlParameters form.endpoint.value, urlParameters

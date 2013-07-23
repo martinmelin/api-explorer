@@ -11,50 +11,47 @@
     <h1>Tictail API Inspector</h1>
     <div class="row">
       <div class="col-lg-7">
-        <form action="/api" class="form-grouped">
-
-          <fieldset>
-            <legend>Method</legend>
-            <div class="well">
-              <div class="radio">
-                <input type="radio" id="method-get" name="method" checked value="GET">
-                <label for="method-get">GET</label>
-              </div>
-
-              <div class="radio">
-                <input type="radio" id="method-post" name="method" value="POST">
-                <label for="method-post">POST</label>
-              </div>
-
-              <div class="radio">
-                <input type="radio" id="method-delete" name="method" value="DELETE">
-                <label for="method-delete">DELETE</label>
-              </div>
+        <form action="/api" class="form-horizontal">
+          <label>Method</label>
+          <div class="well">
+            <div class="radio">
+              <input type="radio" id="method-get" name="method" checked value="GET">
+              <label for="method-get">GET</label>
             </div>
-          </fieldset>
 
-          <fieldset>
-            <legend>Endpoint</legend>
-            <input type="hidden" id="endpoint" name="endpoint">
-          </fieldset>
+            <div class="radio">
+              <input type="radio" id="method-post" name="method" value="POST">
+              <label for="method-post">POST</label>
+            </div>
 
-          <fieldset id="parameters">
-            <legend>Parameters</legend>
-            <div class="inputs"></div>
-          </fieldset>
+            <div class="radio">
+              <input type="radio" id="method-delete" name="method" value="DELETE">
+              <label for="method-delete">DELETE</label>
+            </div>
+          </div>
 
-          <fieldset id="request-body">
-            <legend>Request Body</legend>
+          <div class="form-row">
+            <label for="endpoint">Endpoint</label>
+            <input type="text" id="endpoint" name="endpoint">
+          </div>
+
+          <div id="parameters"></div>
+
+          <div id="request-body" class="form-row">
+            <label>Request Body</label>
             <textarea name="body" id="body" cols="30" rows="5"></textarea>
-          </fieldset>
+          </div>
 
-          <div class="form-actions">
+          <div class="form-row">
             <input type="submit" value="Send Request" class="btn btn-primary pull-right">
           </div>
         </form>
       </div>
 
-      <pre class="response col-lg-5"><code class="language-javascript"></code></pre>
+      <div class="response-container col-lg-5">
+        <label>Response</label>
+        <pre class="response"><code class="language-javascript"></code></pre>
+      </div>
     </div>
   </div>
 

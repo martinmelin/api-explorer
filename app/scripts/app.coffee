@@ -6,8 +6,16 @@ class App
   $response = $ ".response code"
 
   constructor: ->
-    @storeId = 3
-    @accessToken = ""
+    @accessToken = @getAccessToken()
+    @loadStore()
+      .success((response) =>
+        @store = response
+        @display()
+        @loadEndpoints()
+      )
+      .error(->
+        alert "Failed to load store"
+      )
 
     @parameterInputTemplate = _.template $("#parameter-input-template").html()
 
@@ -15,7 +23,9 @@ class App
     @$form.on "ifChecked", "input[name=method]", @loadEndpoints.bind(this)
     @$form.validate submitHandler: @submitHandler.bind(this)
 
-    @loadEndpoints()
+  display: ->
+    $(".loader").hide()
+    $(".app").show()
 
   loadEndpoints: ->
     method = @$form.find("input[name=method]:checked").val()
@@ -41,7 +51,7 @@ class App
       for parameter in parameters
         $input = $ @parameterInputTemplate(name: parameter[1..])
         if parameter is ":store_id"
-          $input.find("input").val(@storeId).prop "disabled", true
+          $input.find("input").val(@store.id).prop "disabled", true
 
         @$parameters.append $input
     else
@@ -53,6 +63,17 @@ class App
   insertUrlParameters: (url, parameters) ->
     url = url.replace(":#{parameter}", value) for parameter, value of parameters
     url
+
+  getAccessToken: ->
+    location.hash[1..].match(/access_token=(.*?)(?=$|&)/)?[1]
+
+  # TODO: Return an actual $.ajax API call
+  loadStore: ->
+    success: (callback) ->
+      setTimeout callback, 500, { id: 3 }
+      this
+    error: (callback) ->
+      this
 
   submitHandler: (form) ->
     urlParameters = {}

@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "dependencies": {
     "jquery": "2.0.3",
-    "tictail-uikit": "git@github.com:tictail/UIKit.git",
+    "tictail-uikit": "git@github.com:tictail/UIKit.git#0.1.0",
     "prism": "LeaVerou/prism#a822961680a774d4d3eedfc2d7cc0dd06db39dfd",
     "underscore": "1.5.1"
   },

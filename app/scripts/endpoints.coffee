@@ -5,11 +5,13 @@ window.API_ENDPOINTS =
     "v1/stores/:store_id/customers"
     "v1/stores/:store_id/customers/:customer_id"
     "v1/stores/:store_id/cards/:card_id"
+    "v1/stores/:store_id/products"
   ]
 
   POST: [
     "v1/stores/:store_id/cards"
     "v1/stores/:store_id/followers"
+    "v1/stores/:store_id/products"
   ]
 
   DELETE: [

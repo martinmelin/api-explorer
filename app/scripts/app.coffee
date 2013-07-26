@@ -1,27 +1,23 @@
-class App
+app = {
+  store: null
+
   $form: $ "form"
   $endpointSelect: $ "#endpoint"
   $parameters: $ "#parameters"
   $requestBody: $ "#request-body"
-  $response = $ ".response code"
+  $response: $ ".response code"
 
-  constructor: ->
-    @accessToken = @getAccessToken()
-    @loadStore()
-      .success((response) =>
-        @store = response
-        @display()
-        @loadEndpoints()
-      )
-      .error(->
-        alert "Failed to load store"
-      )
+  init: (store) ->
+    @store = store
 
     @parameterInputTemplate = _.template $("#parameter-input-template").html()
 
     @$endpointSelect.on "change", @showEndpointParameters.bind(this)
     @$form.on "ifChecked", "input[name=method]", @loadEndpoints.bind(this)
     @$form.validate submitHandler: @submitHandler.bind(this)
+
+    @display()
+    @loadEndpoints()
 
   display: ->
     $(".loader").hide()
@@ -64,17 +60,6 @@ class App
     url = url.replace(":#{parameter}", value) for parameter, value of parameters
     url
 
-  getAccessToken: ->
-    location.hash[1..].match(/access_token=(.*?)(?=$|&)/)?[1]
-
-  # TODO: Return an actual $.ajax API call
-  loadStore: ->
-    success: (callback) ->
-      setTimeout callback, 500, { id: 3 }
-      this
-    error: (callback) ->
-      this
-
   submitHandler: (form) ->
     urlParameters = {}
     for input in @$parameters.find("input")
@@ -84,24 +69,18 @@ class App
     method = @$form.find("input[name=method]:checked").val()
 
     params =
-      url: "http://api.tictailhq.com/#{endpoint}"
       type: method
-      headers: {
-        Authorization: "Bearer #{@accessToken}"
-      }
 
     if method is "POST"
-      _.extend params, {
-        contentType: "application/json"
-        data: @$form[0].body.value
-      }
+      params.data = @$form[0].body.value
 
-    $.ajax(params)
-      .success((response, status, jqXHR) ->
-        $response.text jqXHR.responseText or "Success!"
+    TT.request(endpoint, params)
+      .success((response, status, jqXHR) =>
+        @$response.text jqXHR.responseText or "Success!"
         Prism.highlightAll()
-      ).error((error) ->
-        $response.text "#{error.status}: #{error.statusText}"
+      ).error((error) =>
+        @$response.text "#{error.status}: #{error.statusText}"
       )
+}
 
-new App
+TT.init app.init.bind(app)

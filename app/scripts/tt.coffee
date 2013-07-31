@@ -1,25 +1,32 @@
-PARENT_ORIGIN = "http://tictailhq.com"
-API_URL = "http://api.tictailhq.com"
+class TT
+  PARENT_ORIGIN: "http://tictailhq.com"
+  API_URL: "http://api.tictailhq.com"
 
-window.TT = {
   store: null
   accessToken: null
+  events: $ {}
 
-  _events: $ {}
-
+  # Initalize TT.js and call the callback with the current store when finished.
+  # This should ideally be done before the rest of the application is loaded, e.g
+  # TT.init(MyApp.init).
   init: (callback) ->
     @_setupMessagingEvents()
 
-    @_emit "requestAccess"
-    @_events.one "access", (e, {accessToken, store}) =>
+    @trigger "requestAccess"
+    @events.one "access", (e, {accessToken, store}) =>
       @accessToken = accessToken
       @store = store
 
-      @_emit "loaded"
+      @trigger "loaded"
       callback? store
 
-    @_events.on "requestSize", @reportSize.bind(this)
+    @events.on "requestSize", @reportSize.bind(this)
 
+  # Report the size to the parent frame so that the iframe containing this
+  # app is resized. The options parameter can either contain a width and
+  # height property, or an element property containing a jQuery compatible
+  # selector string. If called without arguments, the outer size of the <html>
+  # element is reported.
   reportSize: (options) ->
     width = height = 0
     if options?.width and options?.height
@@ -29,11 +36,13 @@ window.TT = {
       width = $el.outerWidth()
       height = $el.outerHeight()
 
-    @_emit "reportSize", {width: width, height: height}
+    @trigger "reportSize", {width: width, height: height}
 
+  # A jQuery.ajax wrapper that automatically sets the API root url,
+  # authorization and content-type headers.
   request: (endpoint, settings) ->
     defaults =
-      url: "#{API_URL}/#{endpoint}"
+      url: "#{@API_URL}/#{endpoint}"
       headers: {
         Authorization: "Bearer #{@accessToken}"
       }
@@ -43,15 +52,20 @@ window.TT = {
 
     $.ajax $.extend(true, defaults, settings)
 
-  _setupMessagingEvents: ->
-    $(window).on "message", (e) =>
-      return unless e.originalEvent.origin is PARENT_ORIGIN
-      @_events.trigger e.originalEvent.data.eventName, \
-                       e.originalEvent.data.eventData
-
-  _emit: (eventName, eventData) ->
+  # Trigger an event on the parent frame
+  trigger: (eventName, eventData) ->
     window.parent.postMessage(
       eventName: eventName
       eventData: eventData
-    , PARENT_ORIGIN)
-}
+    , @PARENT_ORIGIN)
+
+  # Convert incoming messages to their own events on the @events object,
+  # assuming every message is an object containing the keys eventName
+  # and eventData.
+  _setupMessagingEvents: ->
+    $(window).on "message", (e) =>
+      return unless e.originalEvent.origin is @PARENT_ORIGIN
+      @events.trigger e.originalEvent.data.eventName, \
+                       e.originalEvent.data.eventData
+
+window.TT = new TT

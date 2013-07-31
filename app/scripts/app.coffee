@@ -1,15 +1,11 @@
-app = {
-  store: null
-
+class App
   $form: $ "form"
   $endpointSelect: $ "#endpoint"
   $parameters: $ "#parameters"
   $requestBody: $ "#request-body"
   $response: $ ".response code"
 
-  init: (store) ->
-    @store = store
-
+  constructor: (@store) ->
     @parameterInputTemplate = _.template $("#parameter-input-template").html()
 
     @$endpointSelect.on "change", @showEndpointParameters.bind(this)
@@ -23,6 +19,8 @@ app = {
     $(".loader").hide()
     $(".app").show()
 
+  # Load the list of endpoints for the currently selected HTTP method
+  # into the endpoint select box.
   loadEndpoints: ->
     method = @$form.find("input[name=method]:checked").val()
     endpoints = _.map _.clone(API_ENDPOINTS[method]), (endpoint) ->
@@ -38,6 +36,8 @@ app = {
 
     TT.reportSize()
 
+  # Render input boxes setting url parameters of the currently selected
+  # endpoint.
   showEndpointParameters: ->
     endpoint = @$endpointSelect.val()
     parameters = @parseUrlParameters endpoint
@@ -57,13 +57,20 @@ app = {
 
     TT.reportSize()
 
+  # Return a list of parameters for the given url
   parseUrlParameters: (url) ->
     url.match /:[A-Z_]*/gi
 
+  # Insert values from the parameters hash into the given url.
+  # Example:
+  #   insertUrlParameters("http://example.com/:foo/:bar", {foo: 1, bar: 5})
+  #     => "http://example.com/1/5"
   insertUrlParameters: (url, parameters) ->
     url = url.replace(":#{parameter}", value) for parameter, value of parameters
     url
 
+  # Handle form submits. Sends an API request according to the form and
+  # prints the success data or error message in the response box.
   submitHandler: (form) ->
     urlParameters = {}
     for input in @$parameters.find("input")
@@ -85,7 +92,6 @@ app = {
       ).error((error) =>
         @$response.text "#{error.status}: #{error.statusText}"
       )
-}
 
 $("body").addClass location.hash.slice(1)
-TT.init app.init.bind(app)
+TT.init (store) -> new App(store)

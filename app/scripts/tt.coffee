@@ -18,6 +18,19 @@ window.TT = {
       @_emit "loaded"
       callback? store
 
+    @_events.on "requestSize", @reportSize.bind(this)
+
+  reportSize: (options) ->
+    width = height = 0
+    if options?.width and options?.height
+      {width, height} = options
+    else
+      $el = $(options?.element or "html")
+      width = $el.outerWidth()
+      height = $el.outerHeight()
+
+    @_emit "reportSize", {width: width, height: height}
+
   request: (endpoint, settings) ->
     defaults =
       url: "#{API_URL}/#{endpoint}"

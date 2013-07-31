@@ -36,6 +36,8 @@ app = {
     else
       @$requestBody.hide()
 
+    TT.reportSize()
+
   showEndpointParameters: ->
     endpoint = @$endpointSelect.val()
     parameters = @parseUrlParameters endpoint
@@ -52,6 +54,8 @@ app = {
         @$parameters.append $input
     else
       @$parameters.hide()
+
+    TT.reportSize()
 
   parseUrlParameters: (url) ->
     url.match /:[A-Z_]*/gi

@@ -14,6 +14,8 @@ window.TT = {
     @_events.one "access", (e, {accessToken, store}) =>
       @accessToken = accessToken
       @store = store
+
+      @_emit "loaded"
       callback? store
 
   request: (endpoint, settings) ->

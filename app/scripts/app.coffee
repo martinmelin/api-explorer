@@ -87,4 +87,5 @@ app = {
       )
 }
 
+$("body").addClass location.hash.slice(1)
 TT.init app.init.bind(app)

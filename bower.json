@@ -4,8 +4,8 @@
   "dependencies": {
     "jquery": "2.0.3",
     "tictail-uikit": "git@github.com:tictail/UIKit.git#842473d0873be3a4a63d1109553a1744eb260201",
-    "prism": "LeaVerou/prism#a822961680a774d4d3eedfc2d7cc0dd06db39dfd",
-    "underscore": "1.5.1"
+    "underscore": "1.5.1",
+    "ace-builds": "1.1.1"
   },
   "devDependencies": {}
 }

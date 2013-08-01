@@ -2,8 +2,7 @@ class App
   $form: $ "form"
   $endpointSelect: $ "#endpoint"
   $parameters: $ "#parameters"
-  $requestBody: $ "#request-body"
-  $response: $ ".response code"
+  $requestBodyContainer: $ ".request-body-container"
 
   constructor: (@store) ->
     @parameterInputTemplate = _.template $("#parameter-input-template").html()
@@ -12,12 +11,28 @@ class App
     @$form.on "ifChecked", "input[name=method]", @loadEndpoints.bind(this)
     @$form.validate submitHandler: @submitHandler.bind(this)
 
+    @editor = ace.edit "request-body"
+    @response = ace.edit "response"
+
+    @aceSetup @editor
+    @aceSetup @response
+    @response.setReadOnly true
+
     @display()
     @loadEndpoints()
 
   display: ->
     $(".loader").hide()
     $(".app").show()
+
+  aceSetup: (ace) ->
+    ace.setTheme "ace/theme/monokai"
+    ace.getSession().setMode "ace/mode/json"
+    ace.getSession().setTabSize 2
+    ace.getSession().setUseWrapMode true
+    ace.getSession().setWrapLimitRange null, null
+    ace.renderer.setShowGutter false
+    ace.setHighlightActiveLine false
 
   # Load the list of endpoints for the currently selected HTTP method
   # into the endpoint select box.
@@ -30,9 +45,9 @@ class App
     @$endpointSelect.val(endpoints[0].id).trigger "change"
 
     if method is "POST"
-      @$requestBody.show()
+      @$requestBodyContainer.show()
     else
-      @$requestBody.hide()
+      @$requestBodyContainer.hide()
 
     TT.reportSize()
 
@@ -83,15 +98,15 @@ class App
       type: method
 
     if method is "POST"
-      params.data = @$form[0].body.value
+      params.data = @editor.getValue()
 
     TT.request(endpoint, params)
       .success((response, status, jqXHR) =>
-        @$response.text jqXHR.responseText or "Success!"
-        Prism.highlightAll()
+        @response.setValue jqXHR.responseText or "Success!"
       ).error((error) =>
-        @$response.text "#{error.status}: #{error.statusText}"
+        @response.setValue "#{error.status}: #{error.statusText}"
       )
+      .complete @response.clearSelection.bind(@response)
 
 $("body").addClass location.hash.slice(1)
 TT.init (store) -> new App(store)

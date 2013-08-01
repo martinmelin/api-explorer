@@ -7,7 +7,6 @@
 
   <!-- build:css({.tmp,app}) styles/main.css -->
   <link rel="stylesheet" href="bower_components/tictail-uikit/dist/tictail-uikit.min.css">
-  <link rel="stylesheet" href="bower_components/prism/prism-okaidia.css">
   <link rel="stylesheet" href="styles/main.css">
   <!-- endbuild -->
 </head>
@@ -50,9 +49,9 @@
 
           <div id="parameters"></div>
 
-          <div id="request-body" class="form-row">
-            <label>Request Body</label>
-            <textarea class="form-control" name="body" id="body" cols="30" rows="5"></textarea>
+          <div class="request-body-container form-row">
+            <label>Request Body (JSON)</label>
+            <div class="request-body-outer"><div id="request-body"></div></div>
           </div>
 
           <div class="form-row">
@@ -63,7 +62,7 @@
 
       <div class="response-container col-lg-5">
         <label>Response</label>
-        <pre class="response"><code class="language-javascript"></code></pre>
+        <div class="response-outer"><div id="response"></div></div>
       </div>
     </div>
   </div>
@@ -78,9 +77,10 @@
   <!-- build:js({.tmp,app}) scripts/app.js -->
   <script src="bower_components/jquery/jquery.min.js"></script>
   <script src="bower_components/underscore/underscore-min.js"></script>
-  <script src="bower_components/prism/prism.js"></script>
-  <script src="scripts/tt.js"></script>
+  <script src="bower_components/ace-builds/src/ace.js"></script>
   <script src="bower_components/tictail-uikit/dist/tictail-uikit.min.js"></script>
+
+  <script src="scripts/tt.js"></script>
   <script src="scripts/endpoints.js"></script>
   <script src="scripts/app.js"></script>
   <!-- endbuild -->

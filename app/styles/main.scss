@@ -16,18 +16,18 @@ body {
     padding-bottom: 25px;
     height: 100%;
 
-    .response {
+    .response-outer {
       height: 100%;
       margin: 0;
       overflow: auto;
+      border: none;
+      padding: 5px 2px 5px 0;
+      border-radius: 3px;
+      background-color: #272822;
+    }
 
-      .token.string {
-        color: #FFCC00;
-      }
-
-      .token.keyword {
-        color: #0BA7FF;
-      }
+    #response {
+      height: 100%;
     }
   }
 
@@ -40,12 +40,18 @@ body {
     display: none;
   }
 
-  #request-body {
+  .request-body-container {
     display: none;
+  }
 
-    textarea {
-      max-width: 100%;
-    }
+  .request-body-outer {
+    padding: 5px 2px 5px 0;
+    background-color: #272822;
+    border-radius: 3px;
+  }
+
+  #request-body {
+    height: 200px;
   }
 
   .form-row {

@@ -2,10 +2,6 @@ body {
   padding-bottom: 20px;
 }
 
-.feed header {
-  display: none;
-}
-
 .app {
   position: relative;
   display: none;
@@ -59,6 +55,15 @@ body {
   }
 }
 
+.feed {
+  header {
+    display: none;
+  }
+
+  .select2-results {
+    max-height: 147px;
+  }
+}
 
 @media (max-width: 799px) {
   .app {

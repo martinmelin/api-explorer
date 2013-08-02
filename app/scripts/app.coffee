@@ -111,5 +111,5 @@ class App
         @response.gotoLine 0
 
 
-$("body").addClass location.hash.slice(1)
-TT.init (store) -> new App(store)
+$("body").addClass location.hash[1..]
+TT.init (store) -> new App store

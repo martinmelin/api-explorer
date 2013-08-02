@@ -106,7 +106,10 @@ class App
       ).error((error) =>
         @response.setValue "#{error.status}: #{error.statusText}"
       )
-      .complete @response.clearSelection.bind(@response)
+      .complete =>
+        @response.clearSelection()
+        @response.gotoLine 0
+
 
 $("body").addClass location.hash.slice(1)
 TT.init (store) -> new App(store)

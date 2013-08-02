@@ -54,10 +54,8 @@ class TT
 
   # Trigger an event on the parent frame
   trigger: (eventName, eventData) ->
-    window.parent.postMessage(
-      eventName: eventName
-      eventData: eventData
-    , @PARENT_ORIGIN)
+    message = JSON.stringify eventName: eventName, eventData: eventData
+    window.parent.postMessage message, @PARENT_ORIGIN
 
   # Convert incoming messages to their own events on the @events object,
   # assuming every message is an object containing the keys eventName
@@ -65,7 +63,12 @@ class TT
   _setupMessagingEvents: ->
     $(window).on "message", (e) =>
       return unless e.originalEvent.origin is @PARENT_ORIGIN
-      @events.trigger e.originalEvent.data.eventName, \
-                       e.originalEvent.data.eventData
+
+      try
+        data = JSON.parse e.originalEvent.data
+      catch e
+        return
+
+      @events.trigger data.eventName, data.eventData
 
 window.TT = new TT

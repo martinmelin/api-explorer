@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "dependencies": {
     "jquery": "2.0.3",
-    "tictail-uikit": "git@github.com:tictail/UIKit.git#842473d0873be3a4a63d1109553a1744eb260201",
+    "tictail-uikit": "git@github.com:tictail/UIKit.git#98658a2ebfa965c5fe3454ca96d32c3262982177",
     "underscore": "1.5.1",
     "ace-builds": "1.1.1"
   },

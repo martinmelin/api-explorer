@@ -1,0 +1,88 @@
+body {
+  padding-bottom: 20px;
+}
+
+.app {
+  position: relative;
+  display: none;
+
+  .response-container {
+    position: absolute;
+    right: 0;
+    padding-bottom: 25px;
+    height: 100%;
+
+    .response-outer {
+      height: 100%;
+      margin: 0;
+      overflow: auto;
+      border: none;
+      padding: 5px 2px 5px 0;
+      border-radius: 3px;
+      background-color: #272822;
+    }
+
+    #response {
+      height: 100%;
+    }
+  }
+
+  .radio {
+    display: inline-block;
+    vertical-align: bottom;
+  }
+
+  #parameters {
+    display: none;
+  }
+
+  .request-body-container {
+    display: none;
+  }
+
+  .request-body-outer {
+    padding: 5px 2px 5px 0;
+    background-color: #272822;
+    border-radius: 3px;
+  }
+
+  #request-body {
+    height: 200px;
+  }
+
+  .form-row {
+    margin-bottom: 15px;
+  }
+}
+
+.feed {
+  header {
+    display: none;
+  }
+
+  .select2-results {
+    max-height: 147px;
+  }
+}
+
+@media (max-width: 799px) {
+  .app {
+    .response-container {
+      clear: both;
+      position: relative;
+      padding-bottom: 0;
+
+      .response-outer {
+        height: 200px;
+      }
+    }
+  }
+}
+
+@media (max-width: 380px) {
+  .app {
+    .radio {
+      padding-left: 3px;
+    }
+  }
+}

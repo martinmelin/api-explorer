@@ -2,14 +2,26 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Example App - App</title>
-  <%- css("main") %>
+  <title>Tictail API Explorer</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- build:css({.tmp,app}) styles/main.css -->
+  <link rel="stylesheet" href="bower_components/tictail-uikit/dist/tictail-uikit.min.css">
+  <link rel="stylesheet" href="styles/main.css">
+  <!-- endbuild -->
 </head>
 <body>
-  <div class="container app">
-    <a href="/logout" class="btn btn-default btn-small logout" >Log Out</a>
-    <h1>Tictail API Inspector</h1>
-    <div class="row">
+  <div class="app-container">
+    <header>
+      <h1>Tictail API Explorer</h1>
+      <hr>
+    </header>
+
+    <div class="loader">
+      Loading Store...
+    </div>
+
+    <div class="row app">
       <div class="col-lg-7">
         <form action="/api" class="form-horizontal">
           <label>Method</label>
@@ -37,9 +49,9 @@
 
           <div id="parameters"></div>
 
-          <div id="request-body" class="form-row">
-            <label>Request Body</label>
-            <textarea name="body" id="body" cols="30" rows="5"></textarea>
+          <div class="request-body-container form-row">
+            <label>Request Body (JSON)</label>
+            <div class="request-body-outer"><div id="request-body"></div></div>
           </div>
 
           <div class="form-row">
@@ -50,22 +62,27 @@
 
       <div class="response-container col-lg-5">
         <label>Response</label>
-        <pre class="response"><code class="language-javascript"></code></pre>
+        <div class="response-outer"><div id="response"></div></div>
       </div>
     </div>
   </div>
 
   <script type="text/html" id="parameter-input-template">
     <div class="form-row">
-      <label for="param-{{name}}">{{name}}</label>
-      <input type="text" name="{{name}}" required>
+      <label for="param-<%= name %>"><%= name %></label>
+      <input class="form-control" type="text" name="<%= name %>" required>
     </div>
   </script>
 
-  <script>
-    window.ACCESS_TOKEN = "<%= access_token %>"
-    window.STORE_ID = <%= store_id %>
-  </script>
-  <%- js("app") %>
+  <!-- build:js({.tmp,app}) scripts/app.js -->
+  <script src="bower_components/jquery/jquery.min.js"></script>
+  <script src="bower_components/underscore/underscore-min.js"></script>
+  <script src="bower_components/ace-builds/src/ace.js"></script>
+  <script src="bower_components/tictail-uikit/dist/tictail-uikit.min.js"></script>
+
+  <script src="scripts/tt.js"></script>
+  <script src="scripts/endpoints.js"></script>
+  <script src="scripts/app.js"></script>
+  <!-- endbuild -->
 </body>
 </html>

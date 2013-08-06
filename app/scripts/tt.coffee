@@ -77,7 +77,7 @@ class TT
     this
 
   # Convert incoming messages to their own events on the @_events object,
-  # assuming every message is an object containing the keys eventName
+  # assuming every message is a JSON string containing the keys eventName
   # and eventData.
   _setupMessagingEvents: ->
     $(window).on "message", (e) =>

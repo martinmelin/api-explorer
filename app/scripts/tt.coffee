@@ -37,6 +37,18 @@ class TT
       height = $el.outerHeight()
 
     @trigger "reportSize", {width: width, height: height}
+  # Show the Tictail dashboard share dialog with the given
+  # heading and message. The given onComplete function is called
+  # with a Boolean indicating whether the user clicked share (true)
+  # or cancelled (false).
+  showShareDialog: (options) ->
+    @_trigger "showShareDialog", {
+      heading: options.heading
+      message: options.message
+    }
+
+    @events.one "shareDialogShown", (e, data) ->
+      options.onComplete data
 
   # A jQuery.ajax wrapper that automatically sets the API root url,
   # authorization and content-type headers.

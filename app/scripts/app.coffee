@@ -100,7 +100,7 @@ class App
     if method is "POST"
       params.data = @editor.getValue()
 
-    TT.trigger "loading"
+    TT.loading()
     TT.request(endpoint, params)
       .success((response, status, jqXHR) =>
         @response.setValue jqXHR.responseText or "Success!"
@@ -108,7 +108,8 @@ class App
         @response.setValue "#{error.status}: #{error.statusText}"
       )
       .complete =>
-        TT.trigger "loaded"
+        TT.loaded()
+
         @response.clearSelection()
         @response.gotoLine 0
 

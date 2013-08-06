@@ -4,7 +4,7 @@ class TT
 
   store: null
   accessToken: null
-  events: $ {}
+  _events: $ {}
 
   # Initalize TT.js and call the callback with the current store when finished.
   # This should ideally be done before the rest of the application is loaded, e.g
@@ -12,15 +12,18 @@ class TT
   init: (callback) ->
     @_setupMessagingEvents()
 
-    @trigger "requestAccess"
-    @events.one "access", (e, {accessToken, store}) =>
+    @_trigger "requestAccess"
+    @_events.one "access", (e, {accessToken, store}) =>
       @accessToken = accessToken
       @store = store
 
-      @trigger "loaded"
+      @loaded()
       callback? store
 
-    @events.on "requestSize", @reportSize.bind(this)
+    @_events.on "requestSize", @reportSize.bind(this)
+
+  loading: => @_trigger "loading"
+  loaded: => @_trigger "loaded"
 
   # Report the size to the parent frame so that the iframe containing this
   # app is resized. The options parameter can either contain a width and
@@ -36,7 +39,8 @@ class TT
       width = $el.outerWidth()
       height = $el.outerHeight()
 
-    @trigger "reportSize", {width: width, height: height}
+    @_trigger "reportSize", {width: width, height: height}
+
   # Show the Tictail dashboard share dialog with the given
   # heading and message. The given onComplete function is called
   # with a Boolean indicating whether the user clicked share (true)
@@ -47,7 +51,7 @@ class TT
       message: options.message
     }
 
-    @events.one "shareDialogShown", (e, data) ->
+    @_events.one "shareDialogShown", (e, data) ->
       options.onComplete data
 
   # A jQuery.ajax wrapper that automatically sets the API root url,
@@ -65,11 +69,11 @@ class TT
     $.ajax $.extend(true, defaults, settings)
 
   # Trigger an event on the parent frame
-  trigger: (eventName, eventData) ->
+  _trigger: (eventName, eventData) ->
     message = JSON.stringify eventName: eventName, eventData: eventData
     window.parent.postMessage message, @PARENT_ORIGIN
 
-  # Convert incoming messages to their own events on the @events object,
+  # Convert incoming messages to their own events on the @_events object,
   # assuming every message is an object containing the keys eventName
   # and eventData.
   _setupMessagingEvents: ->
@@ -81,6 +85,6 @@ class TT
       catch e
         return
 
-      @events.trigger data.eventName, data.eventData
+      @_events.trigger data.eventName, data.eventData
 
 window.TT = new TT

@@ -100,8 +100,7 @@ class App
     if method is "POST"
       params.data = @editor.getValue()
 
-    TT.loading()
-    TT.request(endpoint, params)
+    TT.loading().request(endpoint, params)
       .success((response, status, jqXHR) =>
         @response.setValue jqXHR.responseText or "Success!"
       ).error((error) =>

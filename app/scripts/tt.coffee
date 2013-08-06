@@ -54,6 +54,8 @@ class TT
     @_events.one "shareDialogShown", (e, data) ->
       options.onComplete data
 
+    this
+
   # A jQuery.ajax wrapper that automatically sets the API root url,
   # authorization and content-type headers.
   request: (endpoint, settings) ->
@@ -72,6 +74,7 @@ class TT
   _trigger: (eventName, eventData) ->
     message = JSON.stringify eventName: eventName, eventData: eventData
     window.parent.postMessage message, @PARENT_ORIGIN
+    this
 
   # Convert incoming messages to their own events on the @_events object,
   # assuming every message is an object containing the keys eventName

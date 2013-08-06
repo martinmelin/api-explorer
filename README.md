@@ -1,5 +1,5 @@
 # Tictail API Explorer
-Tictail API Explorer is a native Tictail app for developers who want to play around with the Tictail API. The application is available from the Tictail developer portal (?), but the source code is provided here as well for curious developers.
+Tictail API Explorer is a native Tictail app for playing around with our API, and is available on the apps page of your Tictail developer account. The source code is provided here as an example on how you could build your own amazing native app on Tictail.
 
 # Installing
 First off, make sure you have both [Node.js](http://nodejs.org/download/) and [RubyGems](http://rubygems.org/pages/download) installed on your system, then run the following commands:

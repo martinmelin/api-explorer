@@ -23,7 +23,7 @@
 
     <div class="row app">
       <div class="col-lg-7">
-        <form action="/api" class="form-horizontal">
+        <form action="/api">
           <label>Method</label>
           <div class="well">
             <div class="radio">
@@ -42,19 +42,19 @@
             </div>
           </div>
 
-          <div class="form-row">
+          <div class="form-group">
             <label for="endpoint">Endpoint</label>
             <input type="text" id="endpoint" name="endpoint">
           </div>
 
           <div id="parameters"></div>
 
-          <div class="request-body-container form-row">
+          <div class="request-body-container form-group">
             <label>Request Body (JSON)</label>
             <div class="request-body-outer"><div id="request-body"></div></div>
           </div>
 
-          <div class="form-row">
+          <div class="form-group">
             <input type="submit" value="Send Request" class="btn btn-primary pull-right">
           </div>
         </form>
@@ -68,7 +68,7 @@
   </div>
 
   <script type="text/html" id="parameter-input-template">
-    <div class="form-row">
+    <div class="form-group">
       <label for="param-<%= name %>"><%= name %></label>
       <input class="form-control" type="text" name="<%= name %>" required>
     </div>

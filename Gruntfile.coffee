@@ -25,7 +25,7 @@ module.exports = (grunt) ->
 
     connect:
       options:
-        port: process.env.PORT or 9000
+        port: process.env.PORT or 9001
         hostname: "0.0.0.0"
 
       livereload:

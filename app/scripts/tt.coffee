@@ -1,6 +1,6 @@
 class TT
-  PARENT_ORIGIN: "http://tictailhq.com"
-  API_URL: "http://api.tictailhq.com"
+  PARENT_ORIGIN: "https://tictailhq.com"
+  API_URL: "https://api.tictailhq.com"
 
   store: null
   accessToken: null

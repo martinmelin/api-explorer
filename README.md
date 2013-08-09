@@ -19,7 +19,7 @@ grunt server
 ```
 This sets up a local server that takes care of compiling and serving assets, and live reloads the browser whenever a file is changed. If the port the server wants to run on is occupied, you can change it with:
 ```
-PORT=9001 grunt server
+PORT=9002 grunt server
 ```
 
 # Building

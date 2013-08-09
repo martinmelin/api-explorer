@@ -56,6 +56,9 @@ class TT
 
     this
 
+  showStatus: (label) ->
+    @_trigger "showStatus", label
+
   # A jQuery.ajax wrapper that automatically sets the API root url,
   # authorization and content-type headers.
   request: (endpoint, settings) ->

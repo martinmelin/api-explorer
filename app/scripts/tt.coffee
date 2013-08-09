@@ -52,7 +52,7 @@ class TT
     }
 
     @_events.one "shareDialogShown", (e, data) ->
-      options.onComplete data
+      options.onComplete? data
 
     this
 

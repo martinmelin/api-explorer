@@ -81,6 +81,13 @@ module.exports = (grunt) ->
             "dist/styles/{,*/}*.css"
           ]
 
+    copy:
+      dist:
+        flatten: true
+        expand: true
+        src: ["app/bower_components/ace-builds/src/worker-json.js"]
+        dest: "dist/"
+
     useminPrepare:
       options:
         dest: "dist"
@@ -127,5 +134,7 @@ module.exports = (grunt) ->
     "uglify"
     "rev"
     "usemin"
+    "copy"
   ]
+
   grunt.registerTask "default", ["build"]

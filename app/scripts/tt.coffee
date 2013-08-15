@@ -17,6 +17,9 @@ class TT
       @accessToken = accessToken
       @store = store
 
+      $("#accessToken").text(accessToken)
+      $("#storeId").text(store.id)
+
       @loaded()
       callback? store
 

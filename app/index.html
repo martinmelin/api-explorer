@@ -65,6 +65,20 @@
         <div class="response-outer"><div id="response"></div></div>
       </div>
     </div>
+
+    <div class="app row">
+        <div class="col-sm-12">
+            <hr />
+            <h3>Want to write your own code?</h3>
+            <p>You can sign up to publish your own app on the <a
+                href="https://tictail.com/developers" target="_blank">Tictail
+                App Store</a>, but if you just want to play around, use the
+            below access token to get going quickly: </p>
+            <pre>$ curl https://api.tictail.com/v1/stores/<span id="storeId" class="dynamic-data">x</span> \
+    -H 'Authorization: Bearer <span id="accessToken" class="dynamic-data">(not loaded)</span>'</pre>
+            <p>The access token is valid for access to this store, as long as you have the API Explorer app.<br />Read all about the API in <a href="https://tictail.com/hidevelopers/documentation/" target="_blank">our documentation</a>.</p>
+        </div>
+    </div>
   </div>
 
   <script type="text/html" id="parameter-input-template">

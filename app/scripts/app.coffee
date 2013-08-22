@@ -104,7 +104,7 @@ class App
       .success((response, status, jqXHR) =>
         @response.setValue jqXHR.responseText or "Success!"
       ).error((error) =>
-        @response.setValue "#{error.status}: #{error.statusText}"
+        @response.setValue "#{error.status} #{error.statusText}\n\n#{error.responseText}"
       )
       .complete =>
         TT.loaded()

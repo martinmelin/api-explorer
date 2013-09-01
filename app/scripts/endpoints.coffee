@@ -6,6 +6,7 @@ window.API_ENDPOINTS =
     "v1/stores/:store_id/customers/:customer_id"
     "v1/stores/:store_id/cards/:card_id"
     "v1/stores/:store_id/products"
+    "v1/stores/:store_id/products/:product_id"
     "v1/stores/:store_id/orders",
     "v1/stores/:store_id/orders/:order_id"
   ]

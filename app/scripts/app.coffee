@@ -121,9 +121,11 @@ class App
         @response.gotoLine 0
 
   printSuccessResponse: (response, status, jqXHR) =>
-    @response.setValue jqXHR.responseText or "Success!"
+    @response.setValue \
+      jqXHR.responseText or "#{jqXHR.status} #{jqXHR.statusText}"
 
   printErrorResponse: (error) =>
-    @response.setValue "#{error.status} #{error.statusText}\n\n#{error.responseText}"
+    @response.setValue \
+      "#{error.status} #{error.statusText}\n\n#{error.responseText}"
 
 TT.native.init().then -> new App

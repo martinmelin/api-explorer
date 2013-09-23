@@ -4,45 +4,55 @@ class App
   $parameters: $ "#parameters"
   $requestBodyContainer: $ ".request-body-container"
 
-  constructor: (@store) ->
-    @parameterInputTemplate = _.template $("#parameter-input-template").html()
+  parameterInputTemplate: _.template $("#parameter-input-template").html()
 
-    @$endpointSelect.on "change", @showEndpointParameters.bind(this)
-    @$form.on "ifChecked", "input[name=method]", @loadEndpoints.bind(this)
-    @$form.validate submitHandler: @submitHandler.bind(this)
+  constructor: ->
+    @setupListeners()
+    @setupEditors()
 
+    @getStore().done @display, @loadEndpoints
+
+  setupListeners: ->
+    @$endpointSelect.on "change", @showEndpointParameters
+    @$form.on "ifChecked", "input[name=method]", @loadEndpoints
+    @$form.validate submitHandler: @submitHandler
+
+  # Initialize and setup the ACE editors (request body and read-only response)
+  setupEditors: ->
     @editor = ace.edit "request-body"
     @response = ace.edit "response"
 
-    @aceSetup @editor
-    @aceSetup @response
+    for editor in [@editor, @response]
+      editor.setTheme "ace/theme/monokai"
+      editor.renderer.setShowGutter false
+      editor.setHighlightActiveLine false
+
+      session = editor.getSession()
+      session.setMode "ace/mode/json"
+      session.setTabSize 2
+      session.setUseWrapMode true
+      session.setWrapLimitRange null, null
+
     @response.setReadOnly true
 
-    @display()
-    @loadEndpoints()
+  # Get the user's store from the /me API endpoint
+  getStore: ->
+    TT.api.get("v1/me").then((store) => @store = store)
 
-  display: ->
+  display: =>
     $(".loader").hide()
     $(".app").show()
 
     $("#accessToken").text TT.api.accessToken
     $("#storeId").text @store.id
 
-  aceSetup: (ace) ->
-    ace.setTheme "ace/theme/monokai"
-    ace.getSession().setMode "ace/mode/json"
-    ace.getSession().setTabSize 2
-    ace.getSession().setUseWrapMode true
-    ace.getSession().setWrapLimitRange null, null
-    ace.renderer.setShowGutter false
-    ace.setHighlightActiveLine false
-
   # Load the list of endpoints for the currently selected HTTP method
   # into the endpoint select box.
-  loadEndpoints: ->
+  loadEndpoints: =>
     method = @$form.find("input[name=method]:checked").val()
-    endpoints = _.map _.clone(API_ENDPOINTS[method]), (endpoint) ->
-      { text: endpoint, id: endpoint }
+
+    clone = _.clone(API_ENDPOINTS[method])
+    endpoints = _.map clone, (endpoint) -> text: endpoint, id: endpoint
 
     @$endpointSelect.select data: endpoints
     @$endpointSelect.val(endpoints[0].id).trigger "change"
@@ -56,7 +66,7 @@ class App
 
   # Render input boxes setting url parameters of the currently selected
   # endpoint.
-  showEndpointParameters: ->
+  showEndpointParameters: =>
     endpoint = @$endpointSelect.val()
     parameters = @parseUrlParameters endpoint
     @$parameters.empty()
@@ -89,14 +99,12 @@ class App
 
   # Handle form submits. Sends an API request according to the form and
   # prints the success data or error message in the response box.
-  submitHandler: (form) ->
+  submitHandler: (form) =>
     urlParameters = {}
-    for input in @$parameters.find("input")
-      urlParameters[input.name] = input.value
+    @$parameters.find("input").each -> urlParameters[@name] = @value
 
     endpoint = @insertUrlParameters form.endpoint.value, urlParameters
     method = @$form.find("input[name=method]:checked").val()
-
     params =
       endpoint: endpoint
       type: method
@@ -105,22 +113,18 @@ class App
       params.data = @editor.getValue()
 
     TT.native.loading()
-
     TT.api.ajax(params)
-      .done((response, status, jqXHR) =>
-        @response.setValue jqXHR.responseText or "Success!"
-      ).fail((error) =>
-        @response.setValue "#{error.status} #{error.statusText}\n\n#{error.responseText}"
-      )
+      .done(@printSuccessResponse)
+      .fail(@printErrorResponse)
       .always =>
         TT.native.loaded()
-
         @response.clearSelection()
         @response.gotoLine 0
 
+  printSuccessResponse: (response, status, jqXHR) =>
+    @response.setValue jqXHR.responseText or "Success!"
 
-$("body").addClass location.hash[1..]
-TT.native.init()
-  .then( ->
-    TT.api.get("v1/me").done (store) -> new App(store)
-  )
+  printErrorResponse: (error) =>
+    @response.setValue "#{error.status} #{error.statusText}\n\n#{error.responseText}"
+
+TT.native.init().then -> new App

@@ -49,7 +49,7 @@ class App
     else
       @$requestBodyContainer.hide()
 
-    TT.reportSize()
+    TT.native.reportSize()
 
   # Render input boxes setting url parameters of the currently selected
   # endpoint.
@@ -70,7 +70,7 @@ class App
     else
       @$parameters.hide()
 
-    TT.reportSize()
+    TT.native.reportSize()
 
   # Return a list of parameters for the given url
   parseUrlParameters: (url) ->
@@ -95,23 +95,29 @@ class App
     method = @$form.find("input[name=method]:checked").val()
 
     params =
+      endpoint: endpoint
       type: method
 
     if method is "POST"
       params.data = @editor.getValue()
 
-    TT.loading().request(endpoint, params)
-      .success((response, status, jqXHR) =>
+    TT.native.loading()
+
+    TT.api.ajax(params)
+      .done((response, status, jqXHR) =>
         @response.setValue jqXHR.responseText or "Success!"
-      ).error((error) =>
+      ).fail((error) =>
         @response.setValue "#{error.status} #{error.statusText}\n\n#{error.responseText}"
       )
-      .complete =>
-        TT.loaded()
+      .always =>
+        TT.native.loaded()
 
         @response.clearSelection()
         @response.gotoLine 0
 
 
 $("body").addClass location.hash[1..]
-TT.init (store) -> new App store
+TT.native.init()
+  .then( ->
+    TT.api.get("v1/me").done (store) -> new App(store)
+  )

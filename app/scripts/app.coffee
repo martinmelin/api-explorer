@@ -28,6 +28,7 @@ class App
       editor.setHighlightActiveLine false
 
       session = editor.getSession()
+      session.setUseWorker false
       session.setMode "ace/mode/json"
       session.setTabSize 2
       session.setUseWrapMode true

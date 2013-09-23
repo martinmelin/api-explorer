@@ -40,7 +40,6 @@ class App
     TT.api.get("v1/me").then((store) => @store = store)
 
   display: =>
-    $(".loader").hide()
     $(".app").show()
 
     $("#accessToken").text TT.api.accessToken

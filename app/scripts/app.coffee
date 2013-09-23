@@ -25,6 +25,9 @@ class App
     $(".loader").hide()
     $(".app").show()
 
+    $("#accessToken").text TT.api.accessToken
+    $("#storeId").text @store.id
+
   aceSetup: (ace) ->
     ace.setTheme "ace/theme/monokai"
     ace.getSession().setMode "ace/mode/json"

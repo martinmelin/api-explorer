@@ -27,3 +27,6 @@ To neatly minify and concatenate all assets, run:
 ```
 grunt build
 ```
+
+# License
+See the LICENSE file.
